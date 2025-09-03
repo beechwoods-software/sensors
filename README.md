@@ -13,8 +13,11 @@ to your applications CMakeLists.txt file
 # patches
 The patches subdirectory contains patches needed. The format of the patches direcctory is  
 module/patch where module is a directory whose name is the target directory for the patch. If the target is multiple directories below the root of the build  slashes ('/') are translated to underscores ('_') in the directory names  
+As an example:  
+    cd ~/zephyrprojects/zephyr
+    patch -p 1 < ../myapp/sensors/patches/zephyr/00_pico_w_ready_led.patch
 The current patches are:  
-zephyr/00_ppico_w_ready_led.patch - This patch containes two functions that turn the onboard LED on and off.
+zephyr/00_pico_w_ready_led.patch - This patch containes two functions that turn the onboard LED on and off.
 
 
 # st25dv nfc driver
