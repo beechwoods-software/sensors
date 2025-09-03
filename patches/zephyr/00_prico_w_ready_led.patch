@@ -1,0 +1,52 @@
+diff --git a/drivers/wifi/infineon/airoc_wifi.c b/drivers/wifi/infineon/airoc_wifi.c
+index 7960dee75be..c1084e3187e 100644
+--- a/drivers/wifi/infineon/airoc_wifi.c
++++ b/drivers/wifi/infineon/airoc_wifi.c
+@@ -729,6 +729,47 @@ static int airoc_mgmt_wifi_stats(const struct device *dev, struct net_stats_wifi
+ }
+ #endif
+ 
++// Stuff to control the Pico W LED
++int airoc_led_gpio_on()
++{
++    uint32_t parameters[] = { 0x1, 0x1 };
++    uint32_t result;
++
++    while(airoc_if == NULL) {
++        printk("airoc_if is NULL");
++        k_msleep(1000);
++    }
++
++    result = whd_wifi_set_iovar_buffer(airoc_if,  "gpioout", (uint8_t *)&parameters, sizeof(parameters));
++
++    if (result == WHD_SUCCESS) {
++        return 0;
++    }
++    else {
++        return -1;
++    }
++}
++
++int airoc_led_gpio_off()
++{
++    uint32_t parameters[] = { 0x1, 0x0 };
++    uint32_t result;
++
++    while(airoc_if == NULL) {
++        printk("airoc_if is NULL");
++        k_msleep(1000);
++    }
++
++    result = whd_wifi_set_iovar_buffer(airoc_if,  "gpioout", (uint8_t *)&parameters, sizeof(parameters));
++
++    if (result == WHD_SUCCESS) {
++        return 0;
++    }
++    else {
++        return -1;
++    }
++}
++
+ static int airoc_mgmt_ap_disable(const struct device *dev)
+ {
+ 	cy_rslt_t whd_ret;

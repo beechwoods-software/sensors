@@ -1,0 +1,202 @@
+
+#include <zephyr/dt-bindings/pinctrl/esp-pinctrl-common.h>
+#include <dt-bindings/pinctrl/esp32-pinctrl.h>
+#include <zephyr/dt-bindings/pinctrl/esp32-gpio-sigmap.h>
+
+# remember to remove the ifdefs when copying this
+&wifi {
+        status = "okay";
+};
+#ifdef CONFIG_ADC
+&adc1 {
+      status = "okay";
+};
+#endif // CONFIG_ADC
+#ifdef CONFIG_USE_READY_LED_PWM
+&ledc0 {
+  status = "okay";
+};
+#endif // CONFIG_USE_READY_LED_PWM
+/ {
+#ifdef CONFIG_USEGPIO_LEDS
+  leds {
+    compatible = "gpio-leds";
+    red_leds: red_leds {
+      gpios = <&gpio0 5 GPIO_ACTIVE_HIGH> ;
+    };
+    yellow_leds: yellow_leds {
+      gpios = <&gpio0 18 GPIO_ACTIVE_HIGH> ;
+    };
+    green_leds:green_leds {
+      gpios = <&gpio0 19 GPIO_ACTIVE_HIGH> ;
+    };
+    led_ready: led_ready {
+      gpios = <&gpio0 2 ( GPIO_ACTIVE_HIGH) > ;
+    };
+  };
+#endif  // CONFIG_USE_GPIO_LEDS
+  dial:ky40
+    {
+      compatible = "gpio_keys";
+      dial0: dial_0 {
+        gpios = <&gpio0 25 (GPIO_INT_EDGE_BOTH | GPIO_PULL_UP | GPIO_ACTIVE_LOW)>,
+              <&gpio0 26 (GPIO_INT_EDGE_BOTH | GPIO_PULL_UP | GPIO_ACTIVE_LOW)>,
+              <&gpio0 27 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+        label = "dial 0";
+    };
+    
+    
+#ifdef CONFIG_READY_LED_WS2812
+       led_strip: ws2812 {
+                compatible = "worldsemi,ws2812-gpio";
+
+                chain-length = <16>; /* arbitrary */
+                color-mapping = <LED_COLOR_ID_GREEN
+                                 LED_COLOR_ID_RED
+                                 LED_COLOR_ID_BLUE>;
+                /*
+                 * Arduino D11 / P0.25, which was chosen to match the pin
+                 * used in nrf52dk_nrf52832.overlay.
+                 */
+                in-gpios = <&gpio0 25 0>;
+        };
+
+        aliases {
+                led-strip = &led_strip;
+        };
+#endif  // CONFIG_READY_LED_WS2812
+    
+#ifdef CONFIG_USE_PWM_LED
+	pwms {
+		compatible = "pwm-leds";
+		pwmleds: pwmleds {
+			pwms =  <&ledc0 0 PWM_HZ(100) PWM_POLARITY_NORMAL>,
+			        <&ledc0 1 PWM_HZ(100) PWM_POLARITY_NORMAL>,
+			        <&ledc0 2 PWM_HZ(100) PWM_POLARITY_NORMAL>;
+		};
+	};
+#endif // CONFIG_USE_PWM_LED
+  pwmleds {
+    compatible = "pwm-leds";
+    pwm_led_0: red_pwm_led  {
+      pwms = <&ledc0 0 10000 PWM_POLARITY_NORMAL >;
+    };
+    green_pwm_led: green_pwm_led  {
+      pwms = <&ledc0 1 10000 PWM_POLARITY_NORMAL >;
+    };
+    blue_pwm_led: blue_pwm_led  {
+      pwms = <&ledc0 2 10000 PWM_POLARITY_NORMAL >;
+    };
+  };
+#endif    // CONFIG_READY_LED_PWM
+
+#ifdef CONFIG_USE_KY40
+    
+        
+#ifdef CONFIG_USE_SEVEN_SEGMENT_DISPLAY
+  display {  
+    compatible = "gpio-leds";
+    segment_a: segment_a {
+      gpios = <&gpio0 23 GPIO_ACTIVE_HIGH> ;
+    };	
+    segment_b: segment_b {
+      gpios = <&gpio0 22 GPIO_ACTIVE_HIGH> ;
+    };
+    segment_c: segment_c {
+      gpios = <&gpio0 21 GPIO_ACTIVE_HIGH> ;
+    };
+    segment_d: segment_d {
+      gpios = <&gpio0 19 GPIO_ACTIVE_HIGH> ;
+    };
+    segment_e: segment_e {
+      gpios = <&gpio0 18 GPIO_ACTIVE_HIGH> ;
+    };
+    segment_f: segment_f {
+      gpios = <&gpio0 5 GPIO_ACTIVE_HIGH> ;
+    };
+    segment_g: segment_g {
+      gpios = <&gpio0 17 GPIO_ACTIVE_HIGH> ;
+    };
+    cell_select_1: cell_select_1 {
+      gpios = <&gpio0 16 GPIO_ACTIVE_HIGH> ;
+    };
+    cell_select_2: cell_select_2 {
+      gpios = <&gpio0 4 GPIO_ACTIVE_HIGH> ;
+    };
+    cell_select_3: cell_select_3 {
+      gpios = <&gpio0 2 GPIO_ACTIVE_HIGH> ;
+    };
+    cell_select_4: cell_select_4 {
+      gpios = <&gpio0 15 GPIO_ACTIVE_HIGH> ;
+    };
+  };
+#endif //CONFIG_USE_SEVEN_SEGMENT_DISPLAY
+
+#ifdef CONFIG_USE_BOTTON
+  buttons {
+    compatible = "gpio-keys";
+    button0: button_0 {
+      gpios = < &gpio0 23 (GPIO_PULL_UP | GPIO_ACTIVE_LOW) >;
+      label = "button 0";
+    };
+    button1: button_1 {
+      gpios = < &gpio0 22 (GPIO_PULL_UP | GPIO_ACTIVE_LOW) >;
+      label = "button 1";
+    };
+  };
+#endif
+#ifdef CONFIG_USE_MOTION_SENSORS
+  motion_sensors {
+    compatible = "gpio-keys";
+    motionsensor: motionsensor {
+      gpios = < &gpio0 27 (GPIO_PULL_DOWN | GPIO_ACTIVE_HIGH) >;
+      label = "motion sensor";
+    };	   
+  };
+#endif
+ aliases {
+#ifdef CONFIG_READY_LED_PWM
+ 	 pwm-0 = &ledc0;
+#endif // CONFIG_READY_LED_PWM
+	 sensor = &adc1;
+ };
+  zephyr,user {
+    io-channels = <&adc1 0>;
+    pwm-leds = <pwm
+  };
+};
+
+&pinctrl {
+	 ledc0_default: ledc0_default {
+	 		group1 {
+				pinmux = <LEDC_CH0_GPIO13>,
+					 <LEDC_CH0_GPIO12>,
+					 <LEDC_CH0_GPIO14>;
+				output-enable;
+			};
+	};
+};
+
+&ledc0 {
+       pinctrl-0 = <&ledc0_default>;
+       pinctrl-names = "default";
+       status = "okay";
+       #address-cells = <1>;
+       #size-cells = <0>;
+       channle0@0 {
+       		  reg = <0x0>;
+		  timer = <0>;
+	};
+};
+&adc1 {
+  #address-cells = <1>;
+  #size-cells = <0>;
+
+  channel@0 {
+    reg = <0>;
+    zephyr,gain = "ADC_GAIN_1";
+    zephyr,reference = "ADC_REF_INTERNAL";
+    zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+    zephyr,resolution = <12>;
+  };
+};

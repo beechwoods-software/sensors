@@ -1,0 +1,6 @@
+name: sensors
+
+build:
+  cmake: .
+  kconfig: ./Kconfig
+

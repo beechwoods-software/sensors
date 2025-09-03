@@ -1,0 +1,261 @@
+# Analog to Digital convert configuration
+config USE_ADC
+       bool "configure adc gpio ports"
+       default n
+       select ADC
+       help
+        Enable the adc gpio ports
+
+config USE_ADC_DEBOUNCE
+      bool "Enable debounce of ADC"
+      default n
+      help
+        Continiously sample the ADC. This is incomaptible with low power operation.
+      depends on USE_ADC
+
+config ADC_DEBOUNCE_STACK_SIZE
+    int "Size of the ADC debounce stack"
+    default 1024 if BOARD_ESP32S3_DEVKITC
+    default 512
+    depends on USE_ADC_DEBOUNCE
+    help
+        Size of the adc debounce stack -  per adc device
+
+# The debounce uses a ring buffer of ADC_DEBONCE_SAMPLE_SIZE and samples every ADC_DEBOUNCE_CADENCE ms
+
+config ADC_DEBOUNCE_SAMPLE_SIZE
+    int "Number of samples in the ring buffer"
+    depends on USE_ADC_DEBOUNCE
+    default 100
+    help
+        This is the number of samples in the ring buffer
+
+config ADC_DEBOUNCE_CADENCE
+    int "Sleep time between samles (ms)"
+    default 1000
+    depends on USE_ADC_DEBOUNCE
+    help
+        The intervale between samples in ms.
+
+
+# Button Configuration
+config USE_BUTTON
+       bool "Use button for changing type of display"
+       default n
+       help
+         Use Button for input on changing type of display
+
+# GPIO LED Configuratino
+config USE_GPIO_LED
+       bool "Use GPIO LEDS"
+       default n
+       help
+         Enable the use of GPIO LEDs
+
+# Motion Sensor configuration
+config USE_MOTION_SENSOR
+       bool "Use the motion sensor"
+       default n
+       help
+         Configure a motion sensor for your project
+
+config USE_MOTION_SENSOR_DEBOUNCE
+      bool "Enable debounce of motion sensor"
+      default n
+      help
+        supress motion callbacks for a periiod
+
+
+config USE_MOTION_SENSOR_DEBOUNCE_DELAY
+    int "number of milliseconds to supress callback"
+    depends on USE_MOTION_SENSOR_DEBOUNCE
+    default 5000
+    help
+        This is the number of milliseconds to supress user callback.
+
+
+#PWM RGB LED Configuration
+config USE_PWM_LED
+       bool "Use PWM leds"
+       default n
+       select PWM
+       help
+	       Use PWM rgb LEDS
+# STRIP LED Configuration
+config USE_STRIP_LED
+       bool "Ues strip LEDs"
+       default n
+       select STRIP_LED
+       help
+		Use strip LEDS
+
+
+# Ready LED configuration
+config USE_READY_LED
+       bool "Enable the ready LED"
+       default n
+       select LED
+       help
+         The ready LED is mostly used for signalling on a microprosessor that does not have a console
+
+choice READY_LED_TYPE
+    prompt "Select Ready LED type"
+    depends on USE_READY_LED
+    default USE_READY_LED_GPIO
+
+    config USE_READY_LED_GPIO
+       bool "Enable a GPIO ready LED"
+       help
+          "Select if the ready LED is a GPIO LED"
+
+    config USE_READY_LED_PWM
+       select PWM
+       bool "Enable a pwm ready LED"
+       help
+         Select if the ready led is a PWM led
+
+    config USE_READY_LED_STRIP
+       bool "Enable a led strip ready LED"
+       select LED_STRIP
+       help
+        select if the ready led is a led strip
+
+    config USE_READY_LED_CONTROLLER
+       bool "Enable a LED Controller ready LED"
+       help
+         select if the ready led is controlled by a LED controller
+
+    config USE_READY_LED_PICO_W
+       bool "Enable the Pico W onboard LED"
+       help
+         select to use the onboard led on the Rasperry Pi Pico W
+
+endchoice
+
+config READY_LED_STACK_SIZE
+    int "Size of the ready led stack"
+    default 512 if BOARD_ESP32C6_DEVKITC
+    default 336
+    depends on USE_READY_LED
+    help
+        set the stack size for the ready led
+
+# Motion Sensor configuration
+config USE_MOTION_SENSOR
+       bool "Use the motion sensor"
+       default n
+       help
+         Configure a motion sensor for your project
+
+# Seven Segment Display Configuration
+config USE_SEVEN_SEGMENT_DISPLAY
+       bool "Use seven segment display"
+       default n
+       help
+	Enable the seven segment display
+
+config USE_FOUR_ELEMENT_SEVEN_SEGMENT_DISPLAY
+       bool "Use a 4 element 7 segment display"
+       default n
+       depends on USE_SEVEN_SEGMENT_DISPLAY
+
+config USE_KY40
+       bool "Use a KY40 dial"
+       default n
+       help
+         The KY40 is a button/dial combo sensor
+
+if USE_KY40
+
+    configdefault INPUT
+        default y
+
+    configdefault INPUT_THREAD_STACK_SIZE
+        default 2048
+
+    configdefault INPUT_GPIO_QDEC
+        default y
+endif
+
+config USE_LOWPOWER
+    bool "Use power management"
+    default n
+    help
+        "Enable power management support"
+
+if USE_LOWPOWER
+    configdefault PM
+        default y
+    configdefault PM_DEVICE
+        default y
+endif
+
+config HAS_ESP_SLEEP
+    bool "use esp32 speep function"
+    default n
+
+config USE_METEOROLOGY_SENSORS
+    bool "Use meteorology sensors"
+    default n
+    help
+        Use meteorology sensors (BMP280, BME280 etc)
+
+config MFRC522
+    bool "Use mfrc522 rfid chip"
+    select SPI
+    default n
+    help
+        Use the mfrc522 rfid chip
+
+config MFRC522_INIT_PRIORITY
+	int "Init priority"
+    depends on MFRC522
+	default 90
+	help
+	  Device driver initialization priority.
+
+
+
+ # ST25DVXXK NFC/RFID tag configuration options
+
+config ST25DVXXK
+	bool "ST25DVXXK NFC/RFID tag driver"
+	default n
+config USE_MFRC522
+    bool "Use mfrc522 rfid chip"
+    default n
+    help
+        Use the mfrc522 rfid chip
+# ST25DVXXK NFC/RFID tag configuration options
+
+config ST25DVXXK
+	bool "ST25DVXXK NFC/RFID tag driver"
+	default y
+	select  I2C
+	help
+	  Enable driver for ST25DVXXK NFC/RFID tag.
+
+config ST25DVXXK_INIT_PRIORITY
+	int "Init priority"
+    depends on ST25DVXXK
+	default 90
+	help
+	  Device driver initialization priority.
+
+config PN532
+    bool "PN532 NFC driver"
+    default n
+    help
+        Enable device driver for PN532 NFC/RFID device
+
+config PN532_INIT_PRIORITY
+    int "Init priority for the PN532"
+    depends on PN532
+    default 90
+    help
+        Device driver initialization priority
+
+module = SENSORS
+module-str = "Sensors"
+module-help = Enables logging for the sensors module
+source "subsys/logging/Kconfig.template.log_config"

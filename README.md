@@ -1,1 +1,35 @@
 # sensors
+
+A collection of files to use different kinds of sensors and actuators in zephyr
+
+
+# using
+To use the sensor library add
+add_subdirectory(sensosr)
+and
+target_link_libraries(app PRIVATE sensors)
+to your applications CMakeLists.txt file
+
+# patches
+The patches subdirectory contains patches needed. The format of the patches direcctory is  
+module/patch where module is a directory whose name is the target directory for the patch. If the target is multiple directories below the root of the build  slashes ('/') are translated to underscores ('_') in the directory names  
+The current patches are:  
+zephyr/00_ppico_w_ready_led.patch - This patch containes two functions that turn the onboard LED on and off.
+
+
+# st25dv nfc driver
+This driver implementation includes:
+- Full support for I2C communication
+- Interrupt handling with GPIO callback
+- Fast Transfer Mode (FTM) support
+- Energy Harvesting support
+- Proper initialization and configuration
+- Error handling and logging
+- Device Tree support
+Key features:
+Interrupt handling through a work queue to avoid blocking in ISR context  
+Support for both synchronous and asynchronous operations  
+Configurable Fast Transfer Mode and Energy Harvesting  
+Full register access for advanced configurations  
+Support for reading and writing EEPROM memory  
+Proper error handling and status reporting  
