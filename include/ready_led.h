@@ -1,7 +1,7 @@
 /*
  * Copyright 2023 Brad Kemp Beechwoods Software, Inc.
  * All Rights Reserved
- * SPDX-License-Identifier: Apache-2.0
+ * SPDX-License-Identifier: Apache 2.0
  */
 
 #pragma once
@@ -69,8 +69,6 @@ int ready_led_on();
  *
  * This function sets the delay speed to the pass value.
  * The new delay speed is used at the end of the current delay
- * @return 0 on success
- * @return -errno on error
  */
 void ready_led_set(ready_led_speed_t speed);
 /**
@@ -83,7 +81,7 @@ int ready_led_color(uint32_t red, uint32_t green, uint32_t blue);
 
 /**
  * @brief return the current delay setting
- *@retrun current delay setting
+ *@return current delay setting
  */
 ready_led_speed_t ready_led_speed();
 

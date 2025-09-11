@@ -1,4 +1,4 @@
-# Sensors
+s# Sensors
 
 A collection of files to use different kinds of sensors and actuators in zephyr
 
@@ -26,6 +26,10 @@ To create the documentation change directories to the doc directory and type dox
 
 # ready_led
 The ready_led is an LED that is usually the onboard LED although other LEDs can be configured as the ready_led. It is used to signal status and events to the user.
+
+# button
+Buttons can be either accessible onboard buttons or external gpio buttons  
+A callback is generated for each press or release of a button
 
 # st25dv nfc driver
 This driver implementation includes:

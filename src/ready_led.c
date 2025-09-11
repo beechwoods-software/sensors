@@ -1,7 +1,7 @@
 /*
  * Copyright 2023 Beechwoods Software, Inc.  Brad Kemp
  * All Rights Reserved
- * SPDX-License-Identifier: Apache-2.0
+ * SPDX-License-Identifier: Apache 2.0
  */
 
 
@@ -32,7 +32,7 @@ LOG_MODULE_DECLARE(SENSORS_LOG_MODULE_NAME, CONFIG_SENSORS_LOG_LEVEL);
  * 5) Raspberry PI Pico W: This is a big of a hack to support the onboard LED on the Raspberry PI Pico W (CONFIG_USE_READY_LED_PICO_W)
  *
  * For GPIO ready leds
- * To configure the ready_led, the boards/<board>.overlay should look something like this:
+ * To configure the ready_led, the boards/\<board\>.overlay should look something like this:
  * @code
  * / {
  *    leds {
@@ -54,7 +54,7 @@ LOG_MODULE_DECLARE(SENSORS_LOG_MODULE_NAME, CONFIG_SENSORS_LOG_LEVEL);
  * CONFIG_USE_READY_LED_GPIO=y (this is the default)
  *
  * for pwm ready leds
- * To configure the ready_led, the boards/<board>.overlay should look something like this:
+ * To configure the ready_led, the boards/\<board\>.overlay should look something like this:
  * @code
  * / {
  *     pwmleds {
@@ -109,7 +109,7 @@ LOG_MODULE_DECLARE(SENSORS_LOG_MODULE_NAME, CONFIG_SENSORS_LOG_LEVEL);
  * for LED strip ready leds
  * The ready led module does not allow for indiviual colors on multi-pixel LEDS.
  * The ready led color values  are limited to a uint8_t (0-255 )
- * To configure the ready_led, the boards/<board>.overlay should look something like this:
+ * To configure the ready_led, the boards/\<board\>.overlay should look something like this:
  * @code
  * / {
  *   zephyr,user {
