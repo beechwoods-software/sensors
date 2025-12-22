@@ -21,9 +21,4 @@ zephyr_library_sources_ifdef(CONFIG_USE_SEVEN_SEGMENT_DISPLAY src/sevensegment.c
 zephyr_library_sources_ifdef(CONFIG_USE_READY_LED src/ready_led.c)
 zephyr_library_sources_ifdef(CONFIG_USE_METEOROLOGY_SENSORS src/meteorology.c)
 zephyr_library_sources_ifdef(CONFIG_USE_LOWPOWER src/low_power.c)
-zephyr_library_sources_ifdef(CONFIG_MFRC522 src/mfrc522.c)
-zephyr_library_sources_ifdef(CONFIG_ST25DVXXK src/st25dvxxk.c)
-zephyr_library_sources_ifdef(CONFIG_PN532 src/pn532.c)
-zephyr_library_sources_ifdef(CONFIG_USE_MFRC522 src/mfrc522.c)
-zephyr_library_sources_ifdef(CONFIG_ST25DVXXK src/st25dvxxk.c)
 

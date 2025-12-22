@@ -200,61 +200,6 @@ config USE_METEOROLOGY_SENSORS
     help
         Use meteorology sensors (BMP280, BME280 etc)
 
-config MFRC522
-    bool "Use mfrc522 rfid chip"
-    select SPI
-    default n
-    help
-        Use the mfrc522 rfid chip
-
-config MFRC522_INIT_PRIORITY
-	int "Init priority"
-    depends on MFRC522
-	default 90
-	help
-	  Device driver initialization priority.
-
-
-
- # ST25DVXXK NFC/RFID tag configuration options
-
-config ST25DVXXK
-	bool "ST25DVXXK NFC/RFID tag driver"
-	default n
-config USE_MFRC522
-    bool "Use mfrc522 rfid chip"
-    default n
-    help
-        Use the mfrc522 rfid chip
-# ST25DVXXK NFC/RFID tag configuration options
-
-config ST25DVXXK
-	bool "ST25DVXXK NFC/RFID tag driver"
-	default y
-	select  I2C
-	help
-	  Enable driver for ST25DVXXK NFC/RFID tag.
-
-config ST25DVXXK_INIT_PRIORITY
-	int "Init priority"
-    depends on ST25DVXXK
-	default 90
-	help
-	  Device driver initialization priority.
-
-config PN532
-    bool "PN532 NFC driver"
-    default n
-    help
-        Enable device driver for PN532 NFC/RFID device
-
-config PN532_INIT_PRIORITY
-    int "Init priority for the PN532"
-    depends on PN532
-    default 90
-    help
-        Device driver initialization priority
-
 module = SENSORS
 module-str = "Sensors"
 module-help = Enables logging for the sensors module
