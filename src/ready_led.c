@@ -20,16 +20,20 @@ LOG_MODULE_DECLARE(SENSORS_LOG_MODULE_NAME, CONFIG_SENSORS_LOG_LEVEL);
 #ifdef CONFIG_USE_READY_LED
 /**
  * @file ready_led.c
+ * @brief the ready LED implementation
  * @details
  * The ready led is a LED used to show status. It is useful when a device is running
  * without a console. It is useually the led that is soldered to the PCB of the microprocessor
  *
+ * Implements the ready LED abstraction used to indicate device status
+cd * (blink rates, color when supported) for board-level feedback.
  * The ready_led sensor supports 5 types of LEDs
  * 1) gpio LEDs: these are single color LEDs driven by a GPIO line (CONFIG_USE_READY_LED_GPIO)
  * 2) LED strips: These are one or more LEDs driven by a GPIO line, they are capable of multiple colors (CONFIG_USE_READY_LED_STRIP)
  * 3) PWM LEDS: These are LEDs driven by PWM GPIOS, usally consisting of 3 GPIO lines (CONFIG_USE_READY_LED_PWM)
  * 4) LED Driver: This is support for the Zephyr LED driver. It support gpio LEDS and some leds strips the underlying driver must support the LED controller device (CONFIG_USE_READY_LED_CONTROLLER)
  * 5) Raspberry PI Pico W: This is a big of a hack to support the onboard LED on the Raspberry PI Pico W (CONFIG_USE_READY_LED_PICO_W)
+ *
  *
  * For GPIO ready leds
  * To configure the ready_led, the boards/\<board\>.overlay should look something like this:

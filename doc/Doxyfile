@@ -944,8 +944,20 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = \
-    ../src/ready_led.c ../src/sensor_log.c ../src/button.c \
-    ../include/ready_led.h ../include/button.h
+    ../src/adc.c ../include/adc.h \
+    ../src/button.c ../include/button.h \
+    ../sr/gpio_led.c ../include/gpio_led.h\
+    ../src/ky40.c ../incude/ky40.h \
+    ../src/low_power.c ../include/low_power.h \
+    ../src/meteorology.c ../include/meteorology.h \
+    ../src/motion_sensor.c ../include/motion_sensor.h \
+    ../src/pn532.c ../include/on532.h \
+    ../src/pwmled.c ../include/pwmled.h \
+    ../src/ready_led.c ../include/ready_led.h \
+    ../src/sensor_log.c ../include/sensor_logging.h \
+    ../src/sevensegment.c ../include/sevensegment.h \
+    ../src/st25dvxxk.c ../include/st25dvxxk.h \
+    ../src/stripled.c ../include/stripled.h
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -2433,8 +2445,25 @@ INCLUDE_FILE_PATTERNS  =
 # recursively expanded use the := operator instead of the = operator.
 # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
 
-PREDEFINED             =  CONFIG_USE_READY_LED \
-    CONFIG_USE_BUTTON
+PREDEFINED             =  \
+    CONFIG_USE_ADC \
+    CONFIG_USE_ADC_DEBOUNCE \
+    CONFIG_USE_BUTTON \
+    CONFIG_USE_READY_LED \
+    CONFIG_USE_READY_LED_CONTROLLER \
+    CONFIG_USE_READY_LED_GPIO \
+    CONFIG_USE_READY_LED_PICO_W \
+    CONFIG_USE_READY_LED_PWM \
+    CONFIG_USE_READY_LED_STRIP \
+    CONFIG_USE_GPIO_LED \
+    CONFIG_USE_KY40 \
+    CONFIG_USE_LOWPOWER \
+    CONFIG_USE_METEOROLOGY_SENSORS \
+    CONFIG_USE_MOTION_SENSOR \
+    CONFIG_USE_PWM_LED \
+    CONFIG_MOTION_SENSOR_DEBOUNCE \
+    CONFIG_USE_FOUR_ELEMENT_SEVEN_SEGMENT_DISPLAY \
+    CONFIG_USE_STRIP_LED \
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The
