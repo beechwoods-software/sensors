@@ -1,6 +1,44 @@
-s# Sensors
+
+# Sensors
 
 A collection of files to use different kinds of sensors and actuators in zephyr
+## Public API Summary
+
+The documented public APIs (extracted from headers) are:
+
+- `ready_led` (guarded by `CONFIG_USE_READY_LED`)
+  - `int ready_led_init(void);` — initialize the ready LED, returns 0 on success.
+  - `int ready_led_off(void);` — set LED off.
+  - `int ready_led_on(void);` — set LED on.
+  - `void ready_led_set(ready_led_speed_t speed);` — set blink speed.
+  - `int ready_led_color(uint32_t red, uint32_t green, uint32_t blue);` — set color (0 / error codes per implementation).
+  - `ready_led_speed_t ready_led_speed(void);` — get current speed.
+
+- `button`
+  - `int button_init(button_state_handler_t handler);` — initialize button with callback.
+  - `void set_button_callback(button_state_handler_t cb);` — change callback.
+  - Types: `button_state_t`, `button_callback_data_t`, `button_state_handler_t`.
+
+- `sensor_log`
+  - Module logger is registered as `SENSORS_LOG_MODULE_NAME` with Zephyr logging in `sensor_log.c`.
+
+## Quick usage examples
+
+- Initialize ready LED and set blink speed:
+
+```c
+if (ready_led_init() == 0) {
+  ready_led_set(READY_LED_SHORT);
+}
+```
+
+
+## Troubleshooting & TODOs
+
+- Doxygen output is complete for `include/*.h` and `src/*.c` found by the `Doxyfile`. Open `sensors/doc/html/index.html` to inspect.
+- TODO: consider adding explicit Doxygen comments for any undocumented functions in `src/` (Doxygen shows source-level code but richer @brief/@param/@return blocks improve the HTML pages).
+- TODO: generate per-header Markdown docs under `sensors/docs/` if you want a repo-native README set (I can generate these from headers).
+
 
 
 # Using
@@ -29,7 +67,18 @@ The ready_led is an LED that is usually the onboard LED although other LEDs can 
 
 # button
 Buttons can be either accessible onboard buttons or external gpio buttons  
-A callback is generated for each press or release of a button
+A callback is generated for each press or release of a button  
+- Initialize button with callback:
+
+```c
+void my_button_cb(button_callback_data_t *bcd) {
+  if (bcd->state == BUTTON_STATE_PRESSED) {
+    // handle press
+  }
+}
+
+button_init(my_button_cb);
+```
 
 # st25dv nfc driver
 This driver implementation includes:
