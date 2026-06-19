@@ -130,14 +130,10 @@ int motion_sensor_init(motion_sensor_handler_t handler)
  * Update the user callback invoked when motion is detected. Passing
  * `NULL` disables the callback.
  *
- * Note: the function name in the header is `set_motion_sensor_callback`;
- * this implementation keeps the original (misspelled) symbol for
- * compatibility with existing callers.
- *
  * @param handler Callback function or NULL
  */
 void
-set_moition_sensor_callback(motion_sensor_handler_t handler)
+set_motion_sensor_callback(motion_sensor_handler_t handler)
 {
   motion_callback = handler;
 }
