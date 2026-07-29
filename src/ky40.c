@@ -81,6 +81,8 @@ CONFIG_USER_KY40=y
 static ky40_device_t dials[] = {
   DT_FOREACH_PROP_ELEM(DT_PATH(ZEPHYR_USER), dials, KY40_DT_SPEC_AND_COMMA)
 };
+#define NUM_KY40_DIALS ARRAY_SIZE(dials)
+
 static ky40_event_callback dial_callback = NULL;
 
 static void ky40_cb_handler(struct input_event *evt, int index)
@@ -152,4 +154,10 @@ int ky40_get_rotation(int dev_num)
 
   return data->acc;
 }
+int
+ky40_get_num_dials()
+{
+  return NUM_KY40_DIALS;
+}
+
 #endif // CONFIG_USE_KY40

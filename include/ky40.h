@@ -23,5 +23,6 @@ typedef const struct device * const ky40_device_t;
 typedef void (*ky40_event_callback)(struct input_event *, int);
 
 int ky40_init(ky40_event_callback func);
-int ky40_get_rotation();
+int ky40_get_rotation(int index);
+int ky40_get_num_dials();
 void ky40_set_callback(ky40_event_callback func, int index);
